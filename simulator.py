@@ -17,7 +17,7 @@ import time
 import copy
 import traceback
 
-TIME = 24000
+TIME = 24
 MAX_PTS = 86
 
 class TimedOutExc(Exception):
@@ -41,6 +41,8 @@ class Manual_Player:
 	def __init__(self):
 		pass
 	def move(self, board, old_move, flag):
+		# print(old_move)
+		# print(flag)
 		print 'Enter your move: <format:board row column> (you\'re playing with', flag + ")"
 		mvp = raw_input()
 		mvp = mvp.split()
@@ -90,6 +92,7 @@ class BigBoard:
 		#checks if the move is a free move or not based on the rules
 
 		if old_move == (-1,-1,-1) or (self.small_boards_status[0][allowed_small_board[0]][allowed_small_board[1]] != '-' and self.small_boards_status[1][allowed_small_board[0]][allowed_small_board[1]] != '-'):
+			# For open move
 			for k in range(2):
 				for i in range(9):
 					for j in range(9):
@@ -97,6 +100,7 @@ class BigBoard:
 							allowed_cells.append((k,i,j))
 
 		else:
+			# Normal moves
 			for k in range(2):
 				if self.small_boards_status[k][allowed_small_board[0]][allowed_small_board[1]] == "-":
 					for i in range(3*allowed_small_board[0], 3*allowed_small_board[0]+3):
@@ -259,7 +263,7 @@ def gameplay(obj1, obj2):				#game simulator
 	pts1 = 0
 	pts2 = 0
 
-	# game_board.print_board()
+	game_board.print_board()
 	signal.signal(signal.SIGALRM, handler)
 	while(1):
 		#player 1 turn
@@ -269,7 +273,7 @@ def gameplay(obj1, obj2):				#game simulator
 			break
 
 		old_move = p1_move
-		# game_board.print_board()
+		game_board.print_board()
 
 		if small_board_won:
 			p1_move, WINNER, MESSAGE, pts1, pts2, to_break, small_board_won = player_turn(game_board, old_move, obj1, "P1", "P2", fl1)
@@ -278,7 +282,7 @@ def gameplay(obj1, obj2):				#game simulator
 				break
 
 			old_move = p1_move
-			# game_board.print_board()
+			game_board.print_board()
 
 		#do the same thing for player 2
 		p2_move, WINNER, MESSAGE, pts1, pts2, to_break, small_board_won = player_turn(game_board, old_move, obj2, "P2", "P1", fl2)
@@ -286,7 +290,7 @@ def gameplay(obj1, obj2):				#game simulator
 		if to_break:
 			break
 
-		# game_board.print_board()
+		game_board.print_board()
 		old_move = p2_move
 
 		if small_board_won:
@@ -296,9 +300,9 @@ def gameplay(obj1, obj2):				#game simulator
 				break
 
 			old_move = p2_move
-			# game_board.print_board()
+			game_board.print_board()
 
-	# game_board.print_board()
+	game_board.print_board()
 
 	print "Winner:", WINNER
 	print "Message", MESSAGE
@@ -356,6 +360,7 @@ if __name__ == '__main__':
 		print '<option> can be 1 => Random player vs. Random player'
 		print '                2 => Human vs. Random Player'
 		print '                3 => Human vs. Human'
+		print '                4 => Random vs. Bot'
 		sys.exit(1)
 
 	obj1 = ''
@@ -371,6 +376,10 @@ if __name__ == '__main__':
 	elif option == '3':
 		obj1 = Manual_Player()
 		obj2 = Manual_Player()
+	elif option == '4':
+		from bot import *
+		obj1 = Random_Player()
+		obj2 = Bot()
 	else:
 		print 'Invalid option'
 		sys.exit(1)
