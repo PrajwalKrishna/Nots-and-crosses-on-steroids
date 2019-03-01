@@ -239,7 +239,7 @@ def player_turn(game_board, old_move, obj, ply, opp, flg):
 			return p_move, WINNER, MESSAGE, pts["P1"], pts["P2"], True, False
 
 		status = game_board.find_terminal_state()		#find if the game has ended and if yes, find the winner
-		print status
+		# print status
 		if status[1] == 'WON':							#if the game has ended after a player1 move, player 1 would win
 			pts[ply] = MAX_PTS
 			WINNER = ply
@@ -263,7 +263,7 @@ def gameplay(obj1, obj2):				#game simulator
 	pts1 = 0
 	pts2 = 0
 
-	game_board.print_board()
+	# game_board.print_board()
 	signal.signal(signal.SIGALRM, handler)
 	while(1):
 		#player 1 turn
@@ -273,7 +273,7 @@ def gameplay(obj1, obj2):				#game simulator
 			break
 
 		old_move = p1_move
-		game_board.print_board()
+		# game_board.print_board()
 
 		if small_board_won:
 			p1_move, WINNER, MESSAGE, pts1, pts2, to_break, small_board_won = player_turn(game_board, old_move, obj1, "P1", "P2", fl1)
@@ -282,7 +282,7 @@ def gameplay(obj1, obj2):				#game simulator
 				break
 
 			old_move = p1_move
-			game_board.print_board()
+			# game_board.print_board()
 
 		#do the same thing for player 2
 		p2_move, WINNER, MESSAGE, pts1, pts2, to_break, small_board_won = player_turn(game_board, old_move, obj2, "P2", "P1", fl2)
@@ -290,7 +290,7 @@ def gameplay(obj1, obj2):				#game simulator
 		if to_break:
 			break
 
-		game_board.print_board()
+		# game_board.print_board()
 		old_move = p2_move
 
 		if small_board_won:
@@ -300,12 +300,12 @@ def gameplay(obj1, obj2):				#game simulator
 				break
 
 			old_move = p2_move
-			game_board.print_board()
+			# game_board.print_board()
 
-	game_board.print_board()
+	# game_board.print_board()
 
 	print "Winner:", WINNER
-	print "Message", MESSAGE
+	# print "Message", MESSAGE
 
 	x = 0
 	d = 0
@@ -361,8 +361,7 @@ if __name__ == '__main__':
 		print '                2 => Human vs. Random Player'
 		print '                3 => Human vs. Human'
 		print '                4 => Random vs. Bot'
-		print '                5 => Bot vs. Human'
-		print '                6 => Bot vs. Bot'
+		print '                5 => Bot vs. Bot'
 		sys.exit(1)
 
 	obj1 = ''
@@ -385,12 +384,7 @@ if __name__ == '__main__':
 	elif option == '5':
 		from bot import *
 		obj1 = Bot()
-		obj2 = Manual_Player()
-	elif option == '6':
-		from bot import *
-		from bot_2 import Bot as Say
-		obj1 = Bot()
-		obj2 = Say()
+		obj2 = Bot()
 	else:
 		print 'Invalid option'
 		sys.exit(1)
