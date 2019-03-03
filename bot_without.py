@@ -89,6 +89,7 @@ class Bot:
         self.myLastMove = None
         self.previousTree = None
         self.previousFlag = None
+        pass
 
     def move(self, board, old_move, flag):
         '''
@@ -99,20 +100,8 @@ class Bot:
             self.myLastMove = (1,4,4)
             return (1,4,4)
 
-        root = None
+        # if self.previousTree:
 
-        if self.previousTree:
-            previous_move = None
-            for child in self.previousTree.children:
-                if child.old_move == self.myLastMove:
-                    previous_move = child
-                    break
-            for grandChild in previous_move.children:
-                if grandChild.old_move == old_move:
-                    if grandChild.board == board:
-                        root = grandChild
-                        root.parent = None
-                    break
 
         # Make a copy of current state
         curr_state = deepcopy(board)
@@ -132,29 +121,25 @@ class Bot:
         # Store random move if needed
         best_move = valid_moves[random.randrange(len(valid_moves))]
 
-        if not root:
-            root = Node(None, curr_state, old_move, self.player, 0, self.previousFlag)
+
+        root = Node(None, curr_state, old_move, self.player, 0, self.previousFlag)
 
         # Expand till desired depth
-        if not root.children:
-            root.expansion(self.player)
+        root.expansion(self.player)
         if root.children:
             best_move = root.children[0].old_move
         for child in root.children:
-            if not child.children:
-                child.expansion(self.player)
+            child.expansion(self.player)
             if len(child.children) < 19:
                 for grandChild in child.children:
                     grandChild.expansion(self.player)
-
-        self.previousTree = root
 
         # Simulate for iter times
         iter = 0
         while(1):
             iter+=1
             if time() - startTime > 5:
-                print "iter" + str(root.n)
+                print "iter" + str(iter)
                 break
             leaf = root.selection(self.player)
             status = leaf.simulation()
@@ -169,7 +154,6 @@ class Bot:
 
         print time() - startTime
         self.myLastMove = best_move
-        print best_move
         return best_move
 
 def simulator(board, old_move, flag, previousFlag):
