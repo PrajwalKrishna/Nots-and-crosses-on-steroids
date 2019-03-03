@@ -17,7 +17,7 @@ import time
 import copy
 import traceback
 
-TIME = 24
+TIME = 2400
 MAX_PTS = 86
 
 class TimedOutExc(Exception):
@@ -361,9 +361,10 @@ if __name__ == '__main__':
 		print '                2 => Human vs. Random Player'
 		print '                3 => Human vs. Human'
 		print '                4 => Random vs. Bot'
-		print '                5 => Bot vs. Human'
+		print '                5 => Bot vs. Bot'
 		print '                6 => Bot vs. Bot'
 		print '                7 => Bot vs. Bot'
+		print '                7 => Bot vs. Vibhav'
 		sys.exit(1)
 
 	obj1 = ''
@@ -386,7 +387,7 @@ if __name__ == '__main__':
 	elif option == '5':
 		from bot import *
 		obj1 = Bot()
-		obj2 = Manual_Player()
+		obj2 = Bot()
 	elif option == '6':
 		from bot import *
 		from bot_2 import Bot as Say
@@ -395,8 +396,18 @@ if __name__ == '__main__':
 	elif option == '7':
 		from bot import *
 		from bot_3 import Player_final as Batra
-		obj1 = Bot()
-		obj2 = Batra(5)
+		obj1 = Batra(5)
+		obj2 = Bot()
+	elif option == '8':
+		from bot import *
+		from team11 import Team11 as Vibhav
+		obj1 = Vibhav()
+		obj2 = Bot()
+	elif option == '9':
+		from bot import *
+		from team72 import Team72v3 as Parth
+		obj1 = Parth()
+		obj2 = Bot()
 	else:
 		print 'Invalid option'
 		sys.exit(1)

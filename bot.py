@@ -23,8 +23,8 @@ class Node:
     def ucb(self, N, cooperative):
         '''If cooperative then maximize ucb'''
         if cooperative:
-            return INF if not self.n else self.w/self.n + C * sqrt(log(N)/self.n)
-        return INF if not self.n else 1 - self.w/self.n + C * sqrt(log(N)/self.n)
+            return INF if not self.n else float(self.w)/float(self.n) + C * sqrt(log(N)/float(self.n))
+        return INF if not self.n else 1 - float(self.w)/float(self.n) + C * sqrt(log(N)/float(self.n))
 
     def selection(self, player):
         if not len(self.children):
@@ -40,6 +40,9 @@ class Node:
         return good_child.selection(player)
 
     def expansion(self, player):
+        if self.heuristic >= 100:
+            # Do not need to expand
+            return
         valid_moves = self.board.find_valid_move_cells(self.old_move)
         random.shuffle(valid_moves)
         for action in valid_moves:
@@ -71,14 +74,14 @@ class Node:
         max = [-1 , 0]
         best_child = None
         for child in self.children:
-            if child.n and child.w/child.n > max[0]:
-                max[0] = child.w/child.n
+            if child.n and float(child.w)/float(child.n) > max[0]:
+                max[0] = float(child.w)/float(child.n)
                 max[1] = child.n
                 best_child = child
-            elif child.n and child.w/child.n == max[0] and child.n > max[1]:
+            elif child.n > max[1] and float(child.w)/float(child.n) == max[0]:
                 max[1] = child.n
                 best_child = child
-        return best_child if not best_child else best_child.old_move
+        return None if not best_child else best_child.old_move
 
 class Bot:
     def __init__(self):
@@ -123,6 +126,8 @@ class Bot:
 
         # Expand till desired depth
         root.expansion(self.player)
+        if root.children:
+            best_move = root.children[0].old_move
         for child in root.children:
             child.expansion(self.player)
             if len(child.children) < 19:
@@ -152,6 +157,9 @@ class Bot:
         return best_move
 
 def simulator(board, old_move, flag, previousFlag):
+    status = board.find_terminal_state()
+    if not status[1]=='-':
+        return status
     while(1):
         valid_moves = board.find_valid_move_cells(old_move)
 
