@@ -138,7 +138,7 @@ class Bot:
         iter = 0
         while(1):
             iter+=1
-            if time() - startTime > 5:
+            if time() - startTime > 20:
                 print "iter" + str(iter)
                 break
             leaf = root.selection(self.player)

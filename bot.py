@@ -81,6 +81,7 @@ class Node:
             elif child.n > max[1] and float(child.w)/float(child.n) == max[0]:
                 max[1] = child.n
                 best_child = child
+        print max[0]
         return None if not best_child else best_child.old_move
 
 class Bot:
@@ -101,6 +102,7 @@ class Bot:
 
         root = None
 
+        # Memory retension
         if self.previousTree:
             previous_move = None
             for child in self.previousTree.children:
@@ -109,7 +111,9 @@ class Bot:
                     break
             for grandChild in previous_move.children:
                 if grandChild.old_move == old_move:
-                    if grandChild.board == board:
+                    print "Bye"
+                    if grandChild.board.big_boards_status == board.big_boards_status:
+                        print "Hi"
                         root = grandChild
                         root.parent = None
                     break
@@ -153,8 +157,8 @@ class Bot:
         iter = 0
         while(1):
             iter+=1
-            if time() - startTime > 5:
-                print "iter" + str(root.n)
+            if time() - startTime > 20:
+                print "iter" + str(iter) + "sim" + str(root.n)
                 break
             leaf = root.selection(self.player)
             status = leaf.simulation()

@@ -386,12 +386,13 @@ if __name__ == '__main__':
 		obj2 = Bot()
 	elif option == '5':
 		from bot import *
-		obj1 = Bot()
+		from bot_v2 import Bot as Say
+		obj1 = Say()
 		obj2 = Bot()
 	elif option == '6':
 		from bot import *
-		from my_bot import MyBot as Mudit
-		obj1 = Mudit(10)
+		from final_version import MyBot as Mudit
+		obj1 = Mudit(18)
 		obj2 = Bot()
 	elif option == '7':
 		from bot import *
@@ -411,8 +412,13 @@ if __name__ == '__main__':
 	elif option == '10':
 		from bot import Bot as Prajwal
 		from bot_without import Bot as Tanmay
-		obj1 = Tanmay()
-		obj2 = Prajwal()
+		obj1 = Prajwal()
+		obj2 = Tanmay()
+	elif option == '11':
+		from bot import Bot
+		from main import Player as Kartik
+		obj1 = Bot()
+		obj2 = Kartik()
 	else:
 		print 'Invalid option'
 		sys.exit(1)
