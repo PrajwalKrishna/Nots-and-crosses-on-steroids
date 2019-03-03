@@ -211,7 +211,7 @@ def player_turn(game_board, old_move, obj, ply, opp, flg):
 		try:									#try to get player 1's move
 			p_move = obj.move(game_board, old_move, flg)
 		except TimedOutExc:					#timeout error
-#			print e
+			# print e
 			WINNER = opp
 			MESSAGE = 'TIME OUT'
 			pts[opp] = MAX_PTS
@@ -363,6 +363,7 @@ if __name__ == '__main__':
 		print '                4 => Random vs. Bot'
 		print '                5 => Bot vs. Human'
 		print '                6 => Bot vs. Bot'
+		print '                7 => Bot vs. Bot'
 		sys.exit(1)
 
 	obj1 = ''
@@ -389,8 +390,13 @@ if __name__ == '__main__':
 	elif option == '6':
 		from bot import *
 		from bot_2 import Bot as Say
+		obj1 = Say()
+		obj2 = Bot()
+	elif option == '7':
+		from bot import *
+		from bot_3 import Player_final as Batra
 		obj1 = Bot()
-		obj2 = Say()
+		obj2 = Batra(5)
 	else:
 		print 'Invalid option'
 		sys.exit(1)
